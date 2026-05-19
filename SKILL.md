@@ -1,6 +1,6 @@
 ---
 name: ff14-logs-review
-description: Use when reviewing Final Fantasy XIV FF Logs reports, wipe causes, death chains, mechanic responsibility, or raid-progression pulls. Fetch public FFLogs evidence, identify the first meaningful mechanic deviation, separate first death from first responsibility, and output a concise judgement other agents can reuse.
+description: Use when reviewing Dragonsong's Reprise (DSR / 绝龙诗) FF Logs reports, wipe causes, death chains, mechanic responsibility, or progression pulls. This skill is intentionally limited to DSR-only review; fetch public FFLogs evidence, identify the first meaningful DSR mechanic deviation, separate first death from first responsibility, and output a concise judgement other agents can reuse.
 version: 1.0.0
 author: Hermes Agent
 license: MIT
@@ -14,7 +14,9 @@ metadata:
 
 ## Overview
 
-This skill turns a public FF Logs link into an evidence-based Final Fantasy XIV raid review. It is designed for agents that need to answer questions like “how did this pull wipe?”, “who caused the accident?”, “was this a healer issue or a mechanic issue?”, or “summarize our prog mistakes from this report.”
+This skill turns a public FF Logs link for **Dragonsong's Reprise (DSR / 绝龙诗)** into an evidence-based raid review. It is designed for agents that need to answer DSR-specific questions like “how did this pull wipe?”, “who caused the accident?”, “was this a healer issue or a mechanic issue?”, or “summarize our DSR prog mistakes from this report.”
+
+Scope boundary: this skill is **DSR-only**. If the report is TOP, FRU, savage, criterion, or another duty, state that it is outside this skill's scope unless the user explicitly asks for an unsupported best-effort adaptation.
 
 Core principle: **do not equate first death with first responsibility**. Start from the mechanic window, reconstruct the event chain, then identify the first meaningful deviation from expected play.
 
@@ -22,13 +24,14 @@ Core principle: **do not equate first death with first responsibility**. Start f
 
 Use this skill when the user:
 
-- Sends an FF Logs URL, report code, fight ID, death table, replay link, or exported combat-log snippet.
-- Asks about a wipe, death, mechanic accident, responsibility chain, or progression review.
-- Wants player-by-player or pull-by-pull feedback grounded in log evidence.
-- Mentions FF14/FFXIV, FF Logs, DSR, TOP, FRU, savage/ultimate logs, raid review, wipe review, or “判责/复盘”.
+- Sends a DSR / Dragonsong's Reprise / 绝龙诗 FF Logs URL, report code, fight ID, death table, replay link, or exported combat-log snippet.
+- Asks about a DSR wipe, death, mechanic accident, responsibility chain, or progression review.
+- Wants DSR player-by-player or pull-by-pull feedback grounded in log evidence.
+- Mentions FF14/FFXIV, FF Logs, DSR, Dragonsong's Reprise, 绝龙诗, 幻想龙诗绝境战, raid review, wipe review, or “判责/复盘”.
 
 Do **not** use this skill for:
 
+- Non-DSR FF14 logs (TOP, FRU, savage, criterion, normal/extreme trials) unless explicitly doing an unsupported adaptation.
 - General FF14 strategy writing with no log evidence.
 - Ranking or parse coaching unless the user explicitly asks; use damage tables only as secondary context.
 - Blaming players from the death list alone.
