@@ -1,0 +1,7 @@
+skill
+ff14
+ffxiv
+fflogs
+raid-review
+wipe-analysis
+hermes-agent
