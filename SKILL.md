@@ -36,6 +36,13 @@ Do **not** use this skill for:
 - Ranking or parse coaching unless the user explicitly asks; use damage tables only as secondary context.
 - Blaming players from the death list alone.
 
+## Required Local References
+
+This repo ships two DSR-specific source references. Load them before judging responsibility when available:
+
+- `references/dsr-mechanic-responsibility-framework.md` — 「机制责任判断框架」. Use it to map the pull to the correct phase/mechanic, expected handling, and responsibility rules.
+- `references/dsr-positive-example-library.md` — 「正例库｜机制减伤基准」. Use it only when the likely issue is numerical/mitigation/healing sufficiency; compare observed mitigation against clear-log examples rather than treating it as a universal minimum.
+
 ## Input Parsing
 
 For a URL like:

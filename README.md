@@ -68,6 +68,8 @@ Then start a new agent session. The agent should load/use the skill only for DSR
 ## Files
 
 - `SKILL.md` — the reusable DSR-only review skill.
+- `references/dsr-mechanic-responsibility-framework.md` — DSR / 绝龙诗「机制责任判断框架」exported from the source Notion document; use this as the judgement source of truth.
+- `references/dsr-positive-example-library.md` — DSR / 绝龙诗「正例库｜机制减伤基准」exported from the source Notion database; use this for observed clear-log mitigation baselines.
 - `references/fflogs-endpoints.md` — endpoint and parsing notes.
 - `examples/dsr-p6-wipe-review.md` — example DSR output shape.
 
