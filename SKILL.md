@@ -14,7 +14,7 @@ metadata:
 
 ## Overview
 
-This skill turns a public FF Logs link for **Dragonsong's Reprise (DSR / 绝龙诗)** into an evidence-based raid review. It is designed for agents that need to answer DSR-specific questions like “how did this pull wipe?”, “who caused the accident?”, “was this a healer issue or a mechanic issue?”, or “summarize our DSR prog mistakes from this report.”
+This skill turns a public FF Logs link for **Dragonsong's Reprise (DSR / 绝龙诗)** into an evidence-based raid review. It is designed for agents that need to answer DSR-specific questions like “how did this pull wipe?”, “who caused the accident?”, “was this a healer issue or a mechanic issue?”, or “summarize our DSR prog mistakes from this report.” It also includes a DSR **职业执行表** workflow for extracting per-job burst/healer-execution windows from clear logs and comparing them against high-quality / top-player execution.
 
 Scope boundary: this skill is **DSR-only**. If the report is TOP, FRU, savage, criterion, or another duty, state that it is outside this skill's scope unless the user explicitly asks for an unsupported best-effort adaptation.
 
@@ -42,6 +42,7 @@ This repo ships two DSR-specific source references. Load them before judging res
 
 - `references/dsr-mechanic-responsibility-framework.md` — 「机制责任判断框架」. Use it to map the pull to the correct phase/mechanic, expected handling, and responsibility rules.
 - `references/dsr-positive-example-library.md` — 「正例库｜机制减伤基准」. Use it only when the likely issue is numerical/mitigation/healing sufficiency; compare observed mitigation against clear-log examples rather than treating it as a universal minimum.
+- `references/dsr-job-burst-window-table.md` — 「职业执行表」workflow. Use it when extracting all-job burst/healer-execution windows from DSR clear logs and comparing a team's timing, skill order, potion use, and mechanic alignment against high-quality / top-player reference logs.
 
 ## Input Parsing
 

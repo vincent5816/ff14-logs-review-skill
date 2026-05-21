@@ -9,9 +9,11 @@ A reusable agent skill for **Dragonsong's Reprise (DSR / 绝龙诗) FF Logs wipe
 For DSR/绝龙诗 reports, this skill helps agents:
 
 - Parse public FF Logs report links and fight IDs.
-- Use FFLogs summary, deaths, and replay-segment endpoints.
+- Use FFLogs summary, deaths, replay-segment, GraphQL casts, and table endpoints.
 - Map deaths and damage windows back to DSR phase/mechanic responsibility chains.
 - Separate **first death** from **first responsibility**.
+- Build **职业执行表** rows for every job from actual burst/healing-execution windows.
+- Compare a team's execution timing, burst anchors, potion usage, and mechanic alignment against high-quality / top-player reference logs.
 - Distinguish root cause, collateral deaths, and terminal wipe events.
 - Produce concise, evidence-based wipe reviews with confidence labels.
 
@@ -46,6 +48,11 @@ For DSR/绝龙诗 reports, this skill helps agents:
    - Responsibility chain
    - Confidence level
    - Missing evidence, if any
+9. **When creating a 职业执行表**, use `references/dsr-job-burst-window-table.md`:
+   - Confirm the actual 8-player composition and target job source ID.
+   - Extract cast events and identify that job's real 60s/90s/120s anchors.
+   - Write one row per burst/healer-execution window, preserving Chinese skill names and actual cast order.
+   - Use the table to compare timing, skill order, potion use, and mechanic alignment against top-player / high-quality reference logs.
 
 ## Recommended agent prompt
 
@@ -70,8 +77,10 @@ Then start a new agent session. The agent should load/use the skill only for DSR
 - `SKILL.md` — the reusable DSR-only review skill.
 - `references/dsr-mechanic-responsibility-framework.md` — DSR / 绝龙诗「机制责任判断框架」exported from the source Notion document; use this as the judgement source of truth.
 - `references/dsr-positive-example-library.md` — DSR / 绝龙诗「正例库｜机制减伤基准」exported from the source Notion database; use this for observed clear-log mitigation baselines.
+- `references/dsr-job-burst-window-table.md` — DSR / 绝龙诗「职业执行表」workflow covering all observed jobs' burst/healer-execution anchors, Chinese skill mappings, table schema, and top-player comparison workflow.
 - `references/fflogs-endpoints.md` — endpoint and parsing notes.
 - `examples/dsr-p6-wipe-review.md` — example DSR output shape.
+- `CHANGELOG.md` — public update log.
 
 ## License
 
