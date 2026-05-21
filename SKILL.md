@@ -1,7 +1,7 @@
 ---
 name: ff14-logs-review
 description: Use when reviewing Dragonsong's Reprise (DSR / 绝龙诗) FF Logs reports, wipe causes, death chains, mechanic responsibility, or progression pulls. This skill is intentionally limited to DSR-only review; fetch public FFLogs evidence, identify the first meaningful DSR mechanic deviation, separate first death from first responsibility, and output a concise judgement other agents can reuse.
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -14,7 +14,7 @@ metadata:
 
 ## Overview
 
-This skill turns a public FF Logs link for **Dragonsong's Reprise (DSR / 绝龙诗)** into an evidence-based raid review. It is designed for agents that need to answer DSR-specific questions like “how did this pull wipe?”, “who caused the accident?”, “was this a healer issue or a mechanic issue?”, or “summarize our DSR prog mistakes from this report.” It also includes a DSR **职业执行表** workflow for extracting per-job burst/healer-execution windows from clear logs and comparing them against high-quality / top-player execution.
+This skill turns a public FF Logs link for **Dragonsong's Reprise (DSR / 绝龙诗)** into an evidence-based raid review. It is designed for agents that need to answer DSR-specific questions like "how did this pull wipe?", "who caused the accident?", "was this a healer issue or a mechanic issue?", or "summarize our DSR prog mistakes from this report." It also includes a DSR **职业执行表** workflow for extracting per-job burst/healer-execution windows from clear logs and comparing them against high-quality / top-player execution.
 
 Scope boundary: this skill is **DSR-only**. If the report is TOP, FRU, savage, criterion, or another duty, state that it is outside this skill's scope unless the user explicitly asks for an unsupported best-effort adaptation.
 
@@ -27,7 +27,7 @@ Use this skill when the user:
 - Sends a DSR / Dragonsong's Reprise / 绝龙诗 FF Logs URL, report code, fight ID, death table, replay link, or exported combat-log snippet.
 - Asks about a DSR wipe, death, mechanic accident, responsibility chain, or progression review.
 - Wants DSR player-by-player or pull-by-pull feedback grounded in log evidence.
-- Mentions FF14/FFXIV, FF Logs, DSR, Dragonsong's Reprise, 绝龙诗, 幻想龙诗绝境战, raid review, wipe review, or “判责/复盘”.
+- Mentions FF14/FFXIV, FF Logs, DSR, Dragonsong's Reprise, 绝龙诗, 幻想龙诗绝境战, raid review, wipe review, or "判责/复盘".
 
 Do **not** use this skill for:
 
@@ -42,7 +42,7 @@ This repo ships two DSR-specific source references. Load them before judging res
 
 - `references/dsr-mechanic-responsibility-framework.md` — 「机制责任判断框架」. Use it to map the pull to the correct phase/mechanic, expected handling, and responsibility rules.
 - `references/dsr-positive-example-library.md` — 「正例库｜机制减伤基准」. Use it only when the likely issue is numerical/mitigation/healing sufficiency; compare observed mitigation against clear-log examples rather than treating it as a universal minimum.
-- `references/dsr-job-burst-window-table.md` — 「职业执行表」workflow. Use it when extracting all-job burst/healer-execution windows from DSR clear logs and comparing a team's timing, skill order, potion use, and mechanic alignment against high-quality / top-player reference logs.
+- `references/dsr-job-burst-window-table.md` — 「职业执行表」workflow. Use it **only for kill logs** (see Step 0); do not compare progression pulls against this data.
 
 ## Input Parsing
 
@@ -124,6 +124,25 @@ Do not compare raw DPS across jobs as a fairness judgement. Use same-job percent
 
 ## Analysis Method
 
+### Step 0: 判断 log 类型，选择评价框架
+
+**首先检查 `kill` 字段：**
+
+**过本 log（kill=true）**
+
+- 评价重点：机制执行质量 + 可优化空间。
+- 启用职业执行表对比：找出爆发窗口的技能顺序差异，说明可改进方向。
+- 可对比正例库的减伤规划，提出具体优化建议。
+- 职业执行表数据来自国服各职业顶尖玩家，代表接近理论最优的执行，**不是「合格标准」，是「改进参照」**。差距说明提升空间，不代表当前执行有问题。
+
+**开荒 log（kill=false 或 kill 字段不存在，或用户明确说明是开荒/推进局）**
+
+- 评价重点只有两件事：**推进到了哪个阶段/机制** + **团灭原因是什么**。
+- **不启用**职业执行表对比，不评价伤害数值、循环完整度、爆发总量。
+- 死亡、循环中断、爆发提前/延误是开荒期预期现象，**不单独记录为问题**。
+- 机制责任判断框架（dsr-mechanic-responsibility-framework.md）仍然全量使用。
+- 若用户主动询问某个职业的手法，可基于该玩家**存活期间**的技能释放给出方向性建议，不与过本循环做总量比较。
+
 ### Step A: Identify the terminal wipe event
 
 The last visible mass death is often a consequence. Record it, but do not stop there.
@@ -186,7 +205,7 @@ Default concise answer:
 
 ```markdown
 ## 结论
-- 首责候选：<player/role/mechanic or “not enough evidence”>
+- 首责候选：<player/role/mechanic or "not enough evidence">
 - 置信度：高 / 中高 / 中 / 低
 - 核心理由：<one sentence>
 
@@ -270,13 +289,15 @@ function parseDeaths(html) {
 3. **Ignoring recovered early deaths.** Mention them, but judge whether they caused the final wipe.
 4. **Overclaiming from replay coordinates.** Coordinates support a hypothesis; they are not as strong as video.
 5. **Forgetting static assignments.** If the group uses custom assignments, generic strategy may be wrong.
-6. **Treating terminal enrage as root cause.** Check prior deaths and downtime before saying “DPS issue”.
+6. **Treating terminal enrage as root cause.** Check prior deaths and downtime before saying "DPS issue".
 7. **Mixing languages without lookup.** Use FFLogs ability names from the report language; include English only when helpful for cross-reference.
+8. **Comparing progression pulls to kill-log execution.** Burst windows, GCD counts, and damage totals are meaningless comparisons between a wipe pull and a clean kill. Never do this for kill=false logs.
 
 ## Verification Checklist
 
 - [ ] Report code and fight ID were parsed correctly.
 - [ ] Fight start/end, phase, percent, and players were confirmed.
+- [ ] **Log type was determined (kill=true or kill=false) before choosing evaluation framework.**
 - [ ] Death table was fetched and earliest deaths were inspected.
 - [ ] Replay or event details were checked for the suspected mechanism window when responsibility depends on timing/position.
 - [ ] First death, first responsibility, collateral victims, and terminal event were separated.
