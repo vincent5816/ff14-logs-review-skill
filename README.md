@@ -1,6 +1,6 @@
 # FF14 Logs Review Skill
 
-A reusable agent skill for **Dragonsong's Reprise (DSR / 绝龙诗) FF Logs wipe review only**.
+A reusable agent skill for **Dragonsong's Reprise (DSR / 绝龙诗) FF Logs review, job-execution comparison, and reference-table maintenance**.
 
 > **Scope:** this skill is intentionally limited to **DSR / 绝龙诗复盘**. It is not a general FF14 raid-review skill for TOP, FRU, savage, criterion, or other duties unless another agent explicitly adapts and extends it.
 
@@ -16,6 +16,7 @@ For DSR/绝龙诗 reports, this skill helps agents:
 - Compare a team's execution timing, burst anchors, potion usage, and mechanic alignment against high-quality / top-player reference logs.
 - Distinguish root cause, collateral deaths, and terminal wipe events.
 - Produce concise, evidence-based wipe reviews with confidence labels.
+- Route tasks by **user intent first**, then use `kill=true/false` only as an eligibility/evaluation signal.
 
 ## How other agents should use it
 
@@ -48,11 +49,15 @@ For DSR/绝龙诗 reports, this skill helps agents:
    - Responsibility chain
    - Confidence level
    - Missing evidence, if any
-9. **When creating a 职业执行表**, use `references/dsr-job-burst-window-table.md`:
+9. **Classify user intent before using `kill`**:
+   - 复盘/判责：use the DSR responsibility framework; `kill=false` usually means progression-SOP tone, `kill=true` can be stricter but only for analysis.
+   - 职业手法评价：use clear-log execution tables for comparison only when the user asks for job-performance/burst-window analysis.
+   - 正例库/职业执行表新增：treat as data maintenance; do not apply analysis persona, memes, or player-skill critique.
+10. **When creating a 职业执行表**, use `references/dsr-job-burst-window-table.md`:
    - Confirm the actual 8-player composition and target job source ID.
    - Extract cast events and identify that job's real 60s/90s/120s anchors.
    - Write one row per burst/healer-execution window, preserving Chinese skill names and actual cast order.
-   - Use the table to compare timing, skill order, potion use, and mechanic alignment against top-player / high-quality reference logs.
+   - Use the table to compare timing, skill order, potion use, and mechanic alignment against top-player / high-quality reference logs only when the user asks for comparison/evaluation.
 
 ## Recommended agent prompt
 

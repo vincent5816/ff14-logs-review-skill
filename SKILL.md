@@ -42,7 +42,7 @@ This repo ships two DSR-specific source references. Load them before judging res
 
 - `references/dsr-mechanic-responsibility-framework.md` — 「机制责任判断框架」. Use it to map the pull to the correct phase/mechanic, expected handling, and responsibility rules.
 - `references/dsr-positive-example-library.md` — 「正例库｜机制减伤基准」. Use it only when the likely issue is numerical/mitigation/healing sufficiency; compare observed mitigation against clear-log examples rather than treating it as a universal minimum.
-- `references/dsr-job-burst-window-table.md` — 「职业执行表」workflow. Use it **only for kill logs** (see Step 0); do not compare progression pulls against this data.
+- `references/dsr-job-burst-window-table.md` — 「职业执行表」workflow. Use it when the user asks for job execution/burst-window analysis or data-table maintenance; `kill=true` is an eligibility/quality check, not a routing rule by itself.
 
 ## Input Parsing
 
@@ -124,24 +124,29 @@ Do not compare raw DPS across jobs as a fairness judgement. Use same-job percent
 
 ## Analysis Method
 
-### Step 0: 判断 log 类型，选择评价框架
+### Step 0: 先判用户意图，再检查 `kill`
 
-**首先检查 `kill` 字段：**
+Do **not** route the task from `kill=true/false` alone. First classify the user's intent, then use `kill` only inside that branch.
 
-**过本 log（kill=true）**
+**复盘 / 判责 / 谁的问题 / wipe**
 
-- 评价重点：机制执行质量 + 可优化空间。
-- 启用职业执行表对比：找出爆发窗口的技能顺序差异，说明可改进方向。
-- 可对比正例库的减伤规划，提出具体优化建议。
+- Use `references/dsr-mechanic-responsibility-framework.md` to identify the phase/mechanic, expected handling, and responsibility chain.
+- `kill=false` / 开荒推进局：评价重点是**推进到了哪个阶段/机制** + **团灭原因是什么**；保留明确判责和置信度。
+- `kill=true` / 过本复盘：可以指出机制执行质量和可优化空间，但不要因为通关就自动切到职业执行表或严格职业评价。
+
+**职业手法评价 / 爆发窗口 / 与高质量玩家对比**
+
+- Use `references/dsr-job-burst-window-table.md` when the user asks for job execution, burst-window comparison, or high-quality player comparison.
+- `kill=true` is the normal prerequisite for stable comparison against clear-log execution tables.
+- `kill=false` should not be compared against clear-log execution tables unless the user explicitly asks; give only directional advice based on the player's alive-time casts.
 - 职业执行表数据来自国服各职业顶尖玩家，代表接近理论最优的执行，**不是「合格标准」，是「改进参照」**。差距说明提升空间，不代表当前执行有问题。
 
-**开荒 log（kill=false 或 kill 字段不存在，或用户明确说明是开荒/推进局）**
+**正例库 / 职业执行表新增 / 数据维护**
 
-- 评价重点只有两件事：**推进到了哪个阶段/机制** + **团灭原因是什么**。
-- **不主动启用**职业执行表对比，不评价伤害数值、循环完整度、爆发总量。
-- 死亡、循环中断、爆发提前/延误是开荒期预期现象，**不单独记录为问题**。
-- 机制责任判断框架（dsr-mechanic-responsibility-framework.md）仍然全量使用。
-- 若用户主动询问某个职业的手法，可基于该玩家**存活期间**的技能释放给出方向性建议，不与过本循环做总量比较。
+- If the user asks to add, supplement, append, create a table, or “只新增不要动旧数据”, treat it as data maintenance.
+- `kill=true` is only an eligibility/quality check for extracting clean reference facts; it does **not** imply critique, visible judgement, or job-performance evaluation.
+- Do not evaluate player skill unless the user also explicitly asks for “评价/对比/复盘”.
+- Output only an operation report: what was added, what was verified, what was omitted, and whether old data was left unchanged.
 
 ### Step A: Identify the terminal wipe event
 
@@ -199,13 +204,13 @@ Always distinguish:
 - If several players die simultaneously, inspect the mechanic window, not alphabetical/death-table order.
 - If the user has a static-specific strat or responsibility document, use it as source of truth for assignments.
 
-## Output Persona
+## Output Tone
 
-Before generating the final output, apply one of the following personas based on log type (determined in Step 0). The persona wraps the judgement content — it does not change the facts, responsibility conclusions, or confidence level.
+Tone is **intent-bound, not `kill`-bound**. These tone rules apply only to user-visible analysis tasks — **复盘/判责** and **职业手法评价**. They do not apply to data-maintenance tasks such as adding 正例库 rows or creating/updating 职业执行表 rows.
 
-### 开荒 log（kill=false）→ 温柔妈妈型导师
+### 复盘 / 判责：开荒推进局（通常 `kill=false`）
 
-Tone: warm, encouraging, clear. End every output with a concrete SOP for the player(s) responsible — written from their perspective, telling them exactly what to do next time this mechanic appears.
+Tone: warm, encouraging, clear. Keep the responsibility conclusion and confidence explicit. End with a concrete SOP for the responsible player(s), written from their perspective, telling them exactly what to do next time this mechanic appears.
 
 Rules:
 - State the responsibility conclusion clearly. Do not soften or obscure who caused the wipe.
@@ -216,17 +221,32 @@ Rules:
 Example closing:
 > 下次遇到这个机制，你可以这样做：判定前先看清安全区方向，贴着圣龙侧站定，等俯冲判定结束再移动。不要提前跑，走早了反而进入危险区。
 
-### 过本 log（kill=true）→ 刁钻严格型导师
+### 复盘 / 判责或职业手法评价：过本分析（`kill=true`）
 
-Tone: direct, precise, demanding. Point out every gap between the player's execution and the reference data. Use community memes where there is a clear, natural match — never force one.
+Tone: direct, precise, demanding **only when the user asked for analysis/evaluation**. Point out execution gaps without expanding criticism beyond the evidence. Use community memes where there is a clear, natural match — never force one.
+
+For 职业手法评价:
+- `kill=true`: strict optimization notes are allowed; compare against high-quality reference windows when requested.
+- `kill=false`: give directional improvement advice only; do not shame total output or compare against clear-log totals.
+
+### 正例库 / 职业执行表新增等数据维护
+
+Do **not** use a persona, mentor voice, memes, or strict/soft analysis tone. Use a concise, verifiable operation-report style:
+
+- 新增范围：which mechanisms/jobs/windows/rows were added.
+- 验证结果：what was re-read or checked after writing.
+- 遗漏项：what was intentionally left blank or unavailable.
+- 数据安全：state whether old data was left unchanged / append-only behavior was preserved.
+
+Do not evaluate player skill in this branch unless the user explicitly also asks for “评价/对比/复盘”.
+
+### Meme Reference Library
 
 Meme usage rules:
 - Only use a meme when the situation directly matches its original context (e.g. 龙骑 died from a jump skill → 躺尸龙/999；忍者 released 通灵之术 → 兔忍；tank kept moving → 螺旋T).
 - One meme per output maximum. If no meme fits naturally, omit entirely.
 - Meme appears as a light aside, not the main point. The main point is always the execution gap.
 - All ability and mechanic names in Simplified Chinese using official CN server translations.
-
-### Meme Reference Library
 
 Use only entries from this list. Do not invent new memes or use memes not listed here.
 
@@ -376,7 +396,7 @@ function parseDeaths(html) {
 
 - [ ] Report code and fight ID were parsed correctly.
 - [ ] Fight start/end, phase, percent, and players were confirmed.
-- [ ] **Log type was determined (kill=true or kill=false) before choosing evaluation framework.**
+- [ ] **User intent was classified before using `kill=true/false` to choose the evaluation/data-maintenance framework.**
 - [ ] Death table was fetched and earliest deaths were inspected.
 - [ ] Replay or event details were checked for the suspected mechanism window when responsibility depends on timing/position.
 - [ ] First death, first responsibility, collateral victims, and terminal event were separated.
