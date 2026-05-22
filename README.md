@@ -50,9 +50,9 @@ For DSR/绝龙诗 reports, this skill helps agents:
    - Confidence level
    - Missing evidence, if any
 9. **Classify user intent before using `kill`**:
-   - 复盘/判责：use the DSR responsibility framework; `kill=false` usually means progression-SOP tone, `kill=true` can be stricter but only for analysis.
+   - 复盘/判责：use the DSR responsibility framework; `kill=false` usually means focus on prog point/root cause/next SOP, while `kill=true` can include optimization issues only when evidence supports them.
    - 职业手法评价：use clear-log execution tables for comparison only when the user asks for job-performance/burst-window analysis.
-   - 正例库/职业执行表新增：treat as data maintenance; do not apply analysis persona, memes, or player-skill critique.
+   - 正例库/职业执行表新增：treat as data maintenance; do not apply persona templates, memes, or player-skill critique.
 10. **When creating a 职业执行表**, use `references/dsr-job-burst-window-table.md`:
    - Confirm the actual 8-player composition and target job source ID.
    - Extract cast events and identify that job's real 60s/90s/120s anchors.
